@@ -7,22 +7,22 @@
     "hood_damage": "null",
     "grille_damage": "null",
     "license_plate_visible": true,
-    "front_damage_severity": "moderate"
+    "front_damage_severity": "null"
   },
   "document_type": "statement",
   "extracted_data": {
     "policy_holder": {
       "name": "John Peterson",
-      "policy_number": "C1A8-AU1D-001"
+      "policy_number": "LIAB-AUTO-001"
     },
     "incident": {
       "date": "2025-07-17",
       "type": "vehicle_collision",
-      "description": "Vehicle legally parked was struck on the front end and driver side by a gray pickup truck attempting to park beside it, causing significant damage.",
-      "location": "Parking Lot, 2325 Rain Street, Springfield, OH 45503"
+      "description": "Vehicle legally parked in a market parking space was struck on the front end and driver's side by a gray pickup truck attempting to park beside it. The other driver failed to judge distance and collided, causing significant damage. The other driver stayed and waited for police.",
+      "location": "Parking Lot, 2325 Main Street, Springfield, OH 45503"
     },
     "damages": {
-      "description": "Significant damage to front end and driver side from collision with another vehicle.",
+      "description": "Significant damage to front end and driver's side of vehicle.",
       "estimated_amount": null,
       "currency": "USD",
       "items": []
@@ -32,22 +32,22 @@
       "model": "Accord",
       "year": 2004,
       "license_plate": "OH-GHR1984",
-      "vin": "1HGCM56404A123456"
+      "vin": "1HGCH56404A123456"
     },
     "contact_info": {
       "phone": "(937) 555-2319",
       "email": "john.peterson@email.com",
       "address": "1142 Pinecrest Avenue, Springfield, OH 45503"
     },
-    "additional_details": "Other driver left information and waited for police arrival."
+    "additional_details": "Time of incident was approximately 8:30 AM. Color of vehicle is Silver."
   },
-  "confidence": "high",
-  "extraction_notes": "No explicit damage details on windshield, bumper, headlights, hood, or grille; damage severity inferred from description. License plate visible and readable.",
+  "confidence": "medium",
+  "extraction_notes": "No explicit damage details on windshield, bumper, headlights, hood, or grille were provided. Damage severity is described as significant but not quantified. License plate is visible from text. Date standardized. Some damage specifics missing due to narrative format.",
   "metadata": {
     "source_file": "../../challenge-0/data/statements/crash1_front.jpeg",
     "detected_vehicle_side": "front",
-    "processing_timestamp": "2026-01-28T22:13:55.197946",
+    "processing_timestamp": "2026-02-02T20:43:38.319448",
     "agent_model": "gpt-4.1-mini",
-    "original_text_length": 1029
+    "original_text_length": 1032
   }
 }
