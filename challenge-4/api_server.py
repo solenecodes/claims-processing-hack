@@ -128,6 +128,60 @@ async def process_claim_upload(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/process-claim/upload-multiple", response_model=ClaimProcessResponse)
+async def process_claim_upload_multiple(files: list[UploadFile] = File(...)):
+    """
+    Process multiple claim images (e.g., front + back) and return combined result
+    
+    Args:
+        files: List of image files (JPEG, PNG, etc.)
+        
+    Returns:
+        Combined structured claim data
+    """
+    from workflow_orchestrator import process_multiple_claims_workflow
+    
+    filenames = [f.filename for f in files]
+    logger.info(f"📸 Received {len(files)} claim images: {filenames}")
+    
+    try:
+        # Save all uploaded files to temporary locations with original names mapping
+        file_data = []  # List of (tmp_path, original_filename)
+        for file in files:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=Path(file.filename).suffix) as tmp_file:
+                content = await file.read()
+                tmp_file.write(content)
+                file_data.append((tmp_file.name, file.filename))
+        
+        logger.info(f"💾 Saved {len(file_data)} files to temporary locations")
+        
+        # Process with combined workflow - pass original filenames
+        result = await process_multiple_claims_workflow(file_data)
+        
+        # Clean up temporary files
+        for tmp_path, _ in file_data:
+            os.unlink(tmp_path)
+        
+        # Check for errors
+        if "error" in result:
+            logger.error(f"❌ Workflow error: {result.get('error')}")
+            return ClaimProcessResponse(
+                success=False,
+                error=result.get("error"),
+                data=result
+            )
+        
+        logger.info("✅ Successfully processed combined claim")
+        return ClaimProcessResponse(
+            success=True,
+            data=result
+        )
+        
+    except Exception as e:
+        logger.error(f"❌ Error processing claims: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post("/process-claim/base64", response_model=ClaimProcessResponse)
 async def process_claim_base64(request: ClaimProcessRequest):
     """
